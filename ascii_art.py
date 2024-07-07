@@ -1,3 +1,4 @@
+import argparse
 from PIL import Image
 from colorama import Fore, Style, Back, init
 
@@ -39,10 +40,18 @@ def print_ascii_matrix(ascii_matrix):
         print("".join(line))
     print(Style.RESET_ALL)
 
-filepath = "./ascii-pineapple.jpg"
+def main():
+    parser = argparse.ArgumentParser(description="Generate ASCII art from an image file.")
+    parser.add_argument("filepath", type=str, help="Path to the image file")
+    parser.add_argument("--height", type=int, default=1000, help="Height of the ASCII art (default: 1000)")
 
-img = Image.open(filepath)
-pixels = get_pixel_matrix(img, 1000)
+    args = parser.parse_args()
 
-ascii_matrix = convert_to_ascii(pixels, ASCII_CHARS)
-print_ascii_matrix(ascii_matrix)
+    img = Image.open(args.filepath)
+    pixels = get_pixel_matrix(img, args.height)
+
+    ascii_matrix = convert_to_ascii(pixels, ASCII_CHARS)
+    print_ascii_matrix(ascii_matrix)
+
+if __name__ == "__main__":
+    main()
